@@ -1,0 +1,4 @@
+(executable
+ (public_name ores)
+ (name main)
+ (libraries ores))

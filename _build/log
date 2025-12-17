@@ -1,0 +1,6 @@
+# dune init proj ores
+# OCAMLPARAM: unset
+# Shared cache: enabled-except-user-rules
+# Shared cache location: /Users/joyz/.cache/dune/db
+# Workspace root: /Users/joyz/work/projects/ores
+# Auto-detected concurrency: 12
