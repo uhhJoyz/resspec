@@ -1,6 +1,18 @@
-# dune init proj ores
+# dune exec resspec -- /Users/joyz/work/resume/proto/resume.typ
 # OCAMLPARAM: unset
 # Shared cache: enabled-except-user-rules
 # Shared cache location: /Users/joyz/.cache/dune/db
 # Workspace root: /Users/joyz/work/projects/ores
 # Auto-detected concurrency: 12
+# Dune context:
+#  { name = "default"
+#  ; kind = "default"
+#  ; profile = Dev
+#  ; merlin = true
+#  ; fdo_target_exe = None
+#  ; build_dir = In_build_dir "default"
+#  ; instrument_with = []
+#  }
+$ /Users/joyz/.opam/default/bin/ocamlc.opt -config > /var/folders/6z/v_s95qv95b55n3gs981td7zr0000gn/T/dune_db8005_output
+$ (cd _build/default && /Users/joyz/.opam/default/bin/ocamlopt.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -I bin/.main.eobjs/byte -I bin/.main.eobjs/native -I /Users/joyz/.opam/default/lib/ocaml/str -I /Users/joyz/.opam/default/lib/ocamlgraph -I /Users/joyz/.opam/default/lib/seq -I /Users/joyz/.opam/default/lib/yojson -I lib/.resspec.objs/byte -I lib/.resspec.objs/native -cmi-file bin/.main.eobjs/byte/dune__exe__Main.cmi -no-alias-deps -opaque -o bin/.main.eobjs/native/dune__exe__Main.cmx -c -impl bin/main.ml)
+$ (cd _build/default && /Users/joyz/.opam/default/bin/ocamlopt.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -o bin/main.exe lib/resspec.cmxa /Users/joyz/.opam/default/lib/ocaml/str/str.cmxa /Users/joyz/.opam/default/lib/ocamlgraph/graph.cmxa /Users/joyz/.opam/default/lib/yojson/yojson.cmxa bin/.main.eobjs/native/dune__exe__Main.cmx)

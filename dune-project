@@ -1,6 +1,6 @@
 (lang dune 3.20)
 
-(name ores)
+(name resspec)
 
 (generate_opam_files true)
 
@@ -16,10 +16,10 @@
 (documentation https://url/to/documentation)
 
 (package
- (name ores)
+ (name resspec)
  (synopsis "A short synopsis")
  (description "A longer description")
- (depends ocaml)
+ (depends ocaml str yojson ocamlgraph)
  (tags
   ("add topics" "to describe" your project)))
 

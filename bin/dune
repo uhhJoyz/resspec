@@ -1,4 +1,4 @@
 (executable
- (public_name ores)
+ (public_name resspec)
  (name main)
- (libraries ores))
+ (libraries resspec str ocamlgraph yojson))

@@ -196,9 +196,7 @@ end
 module Section = struct
   let of_str l s =
     let title = get_param "title" s in
-    { name = title
-    ; entries = Entry.of_sec_str (not (List.exists (fun v -> v = title) l)) s
-    }
+    { name = title; entries = Entry.of_sec_str (not (List.exists (fun v -> v = title) l)) s }
   ;;
 
   let to_str sec =
@@ -228,8 +226,8 @@ module Section = struct
   ;;
 end
 
-let build_resume dir tags mandatory =
-  let sections = read_to_sections dir |> List.map (Section.of_str mandatory) in
+let build_resume dir tags =
+    let sections = read_to_sections dir |> List.map (Section.of_str ["Education"; "Skills"]) in
   let _ =
     List.map
       sep_tag_and_mod
@@ -286,7 +284,7 @@ let speclist =
 let () =
   Arg.parse speclist anon_fun usage_msg;
   (* write resume data to temporary output file *)
-  let _ = build_resume (List.nth !args 0) (get_tags !tag_str) [ "Education"; "Skills" ] in
+  let _ = build_resume (List.nth !args 0) (get_tags !tag_str) in
   string_to_file "test" !output_file;
   if not (typst_compile !output_file) then failwith "Typst Compilation Error";
   (* remove the output file if none is specified *)
