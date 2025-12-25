@@ -19,7 +19,7 @@
  (name resspec)
  (synopsis "A short synopsis")
  (description "A longer description")
- (depends ocaml str yojson ocamlgraph)
+ (depends ocaml str unix)
  (tags
   ("add topics" "to describe" your project)))
 
