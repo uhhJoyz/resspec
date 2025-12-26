@@ -29,8 +29,7 @@ let () =
   if !interactive
   then (
     let tagset = Resmeta.tagset rm |> Array.map (fun t -> t, 0) in
-    Cli.start_interactive_mode tagset level output_file rm
-  )
+    Cli.start_interactive_mode tagset level output_file rm)
   else (
     (* assumes even weighting *)
     let tagset = Resmeta.tagset rm |> Array.to_list |> List.map (fun t -> t, 1) in
