@@ -19,7 +19,7 @@
  (name resspec)
  (synopsis "A resume generation program.")
  (description "A program which uses a tag-based system to generate one-page resumes based on your existing longer resumes.")
- (depends ocaml str unix minttea)
+ (depends ocaml str unix minttea spices leaves)
  (tags
   ("resume generation" "knapsack problem")))
 

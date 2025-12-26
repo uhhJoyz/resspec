@@ -1,6 +1,6 @@
 open Section
 
-type _res_meta =
+type res_meta =
   { contents : string
   ; formatting : string
   ; header : string
@@ -29,7 +29,7 @@ let of_file f mandatory page_height =
   ; line_height
   ; available_space =
       (Section.calc_available_space s sections mandatory page_height padding
-        |> fun v -> v /. line_height |> Float.to_int)
+       |> fun v -> v /. line_height |> Float.to_int)
   ; page_height
   ; padding
   ; sections
@@ -40,10 +40,29 @@ let score tags sec =
   Section.entries sec
   |> List.mapi (fun i e ->
     List.map
-      (fun tag ->
-         List.mem tag (Entry.tags e) |> Bool.to_int |> ( * ) (List.length sec.entries - i))
+      (fun (tag, point) ->
+         List.mem tag (Entry.tags e)
+         |> Bool.to_int
+         |> Float.of_int
+         |> ( *. )
+              (List.length sec.entries - i
+               |> Float.of_int
+               |> fun v -> 1.0 +. (v /. (List.length sec.entries |> Float.of_int)))
+         |> Float.to_int
+         |> ( * ) point)
       tags
     |> List.fold_left ( + ) 0)
+;;
+
+module StringSet = Set.Make (String)
+
+let tagset rm =
+  List.map (fun s -> List.map (fun e -> Entry.tags e) s.entries) rm.sections
+  |> List.flatten
+  |> List.flatten
+  |> StringSet.of_list
+  |> StringSet.to_list
+  |> Array.of_list
 ;;
 
 let sections rm = rm.sections

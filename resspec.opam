@@ -16,6 +16,8 @@ depends: [
   "str"
   "unix"
   "minttea"
+  "spices"
+  "leaves"
   "odoc" {with-doc}
 ]
 build: [
