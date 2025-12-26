@@ -14,7 +14,7 @@ depends: [
   "ocaml"
   "str"
   "unix"
-  "domainslib"
+  "minttea"
   "odoc" {with-doc}
 ]
 build: [

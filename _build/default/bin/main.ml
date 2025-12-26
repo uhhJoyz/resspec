@@ -1,5 +1,3 @@
-module Task = Domainslib.Task
-
 let knapsack cap va wa =
   let rec aux cap n memo =
     if n = 0 || cap = 0
@@ -235,8 +233,7 @@ let get_param param f =
 let typst_measure s formatting =
   (* typst_query the size of a particluar item 
      after applying formatting and rendering  *)
-  let tf = Int.to_string (Domain.self_index ()) ^ "___measuring.typ" in
-  let () = Printf.printf "%s\n" tf in
+  let tf = "___measuring.typ" in
   let () =
     string_to_file
       (formatting
@@ -250,18 +247,11 @@ let typst_measure s formatting =
   v
 ;;
 
-let calc_padding pool formatting =
-  let sec_size =
-    Task.async pool (fun _ -> typst_measure "section()" formatting |> float_or_default)
-  in
-  let ent_size =
-    Task.async pool (fun _ -> typst_measure "entry()" formatting |> float_or_default)
-  in
-  let both =
-    Task.async pool (fun _ ->
-      typst_measure "section(entry())" formatting |> float_or_default)
-  in
-  Task.await pool both -. (Task.await pool sec_size +. Task.await pool ent_size)
+let calc_padding formatting =
+  let sec_size = typst_measure "section()" formatting |> float_or_default in
+  let ent_size = typst_measure "entry()" formatting |> float_or_default in
+  let both = typst_measure "section(entry())" formatting |> float_or_default in
+  both -. (sec_size +. ent_size)
 ;;
 
 let line_height formatting = typst_measure "[temp]" formatting
@@ -441,17 +431,15 @@ type _res_meta =
 
 module ResMeta = struct
   let of_file f mandatory page_height =
-    let pool = Task.setup_pool ~num_domains:4 () in
     let s = read_string f in
     let formatting = strip_formatting s in
-    let padding = Task.run pool (fun _ -> calc_padding pool formatting) in
+    let padding = calc_padding formatting in
     let sections =
       match split_res_to_sec_opt s with
       | None -> []
       | Some l -> l |> List.map (Section.of_str mandatory)
     in
     let line_height = line_height formatting |> float_or_default in
-    let () = Task.teardown_pool pool in
     { contents = s
     ; formatting
     ; header = strip_header s

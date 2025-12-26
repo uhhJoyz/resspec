@@ -19,7 +19,7 @@
  (name resspec)
  (synopsis "A short synopsis")
  (description "A longer description")
- (depends ocaml str unix)
+ (depends ocaml str unix minttea)
  (tags
   ("add topics" "to describe" your project)))
 

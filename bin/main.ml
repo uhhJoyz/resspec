@@ -247,7 +247,7 @@ let typst_measure s formatting =
   v
 ;;
 
-let calc_padding pool formatting =
+let calc_padding formatting =
   let sec_size = typst_measure "section()" formatting |> float_or_default in
   let ent_size = typst_measure "entry()" formatting |> float_or_default in
   let both = typst_measure "section(entry())" formatting |> float_or_default in
