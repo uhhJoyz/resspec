@@ -17,10 +17,10 @@
 
 (package
  (name resspec)
- (synopsis "A short synopsis")
- (description "A longer description")
+ (synopsis "A resume generation program.")
+ (description "A program which uses a tag-based system to generate one-page resumes based on your existing longer resumes.")
  (depends ocaml str unix minttea)
  (tags
-  ("add topics" "to describe" your project)))
+  ("resume generation" "knapsack problem")))
 
 ; See the complete stanza docs at https://dune.readthedocs.io/en/stable/reference/dune-project/index.html

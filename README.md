@@ -18,7 +18,9 @@ It should be noted that, due to the nature of Typst's query and the developer
 decision to use the Typst CLI to implement this project, this application's
 runtime is almost entirely determined by file operations and Typst compilation
 and query times. As of the writing of this section, only $1.3\%$ of
-programruntime is spent performing calculations or doing operations.
+programruntime is spent performing calculations or doing operations. This
+information was gleaned using a mix of various timing tools and manual tooling
+using `Sys.time`.
 
 This could be resolved by using a server instance of Typst and communicating
 through their JSON RPC infrastructure, however this application is not highly
