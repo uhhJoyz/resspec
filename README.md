@@ -1,1 +1,47 @@
-This is resspec (pronounced "ree-speck"), which is a resume tailoring application built on Typst using OCaml. For those who are unaware, Typst is a modern type-setting language similar to LaTeX with scripting capabilities similar to Python.
+# Welcome
+
+This is resspec (pronounced "ree-speck"), which is a resume tailoring
+application built on Typst using OCaml. For those who are unaware, Typst is a
+modern type-setting language similar to LaTeX with scripting capabilities
+similar to Python. Its implementation is based on a reduction ot the knapsack
+problem and uses an $O(n \cdot W)$ implementation of the knapsack problem where
+$n$ is the number of resume entries you have and $W$ is the amount of vertical
+space in your Typst document.
+
+In the event that one of your sections on your shortened resume ends up being
+empty, we recommend modifying your tag assignments to better suit your desired
+output.
+
+# On Performance
+
+It should be noted that, due to the nature of Typst's query and the developer
+decision to use the Typst CLI to implement this project, this application's
+runtime is almost entirely determined by file operations and Typst compilation
+and query times. As of the writing of this section, only $1.3\%$ of
+programruntime is spent performing calculations or doing operations.
+
+This could be resolved by using a server instance of Typst and communicating
+through their JSON RPC infrastructure, however this application is not highly
+latency sensitive, so this was not a high priority.
+
+# Getting Started
+
+To get started, you need to install [Typst (found
+here)](https://github.com/typst/typst). There are many ways to do this, but if
+you are on MacOS or Ubuntu, run one of the following commands:
+
+```bash
+# MacOS
+brew install typst
+# Ubuntu
+sudo snap install typst
+```
+
+# Build
+
+The application can be built from source using dune with the `dune build`
+command.
+
+# Installation / Usage
+
+TODO

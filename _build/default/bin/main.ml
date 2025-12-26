@@ -1,12 +1,4 @@
-type _res_meta =
-  { contents : string
-  ; formatting : string
-  ; header : string
-  ; mandatory_sec : string list
-  ; line_height : float
-  ; available_space : float
-  ; page_height : float
-  }
+module Task = Domainslib.Task
 
 let knapsack cap va wa =
   let rec aux cap n memo =
@@ -23,10 +15,10 @@ let knapsack cap va wa =
       memo.(n).(cap))
   in
   let n = min (Array.length va) (Array.length wa) in
-  let memo = Array.init (n + 1) (fun _ -> Array.init (cap + 1) (fun _ -> -1)) in
+  let memo = Array.make_matrix (n + 1) (cap + 1) (-1) in
   let o = aux cap n memo in
   let rec backtrack i j acc =
-    if i = 0 || j = 0
+    if i <= 0 || j <= 0
     then acc
     else if memo.(i).(j) = memo.(i - 1).(j)
     then
@@ -34,7 +26,10 @@ let knapsack cap va wa =
       backtrack (i - 1) j acc
     else
       (* taken *)
-      backtrack (i - 1) (j - wa.(i - 1)) (i :: acc)
+      backtrack
+        (i - 1)
+        (j - wa.(i - 1))
+        (if j - wa.(i - 1) >= 0 then (i - 1) :: acc else acc)
   in
   o, backtrack n cap []
 ;;
@@ -46,7 +41,7 @@ let cap_cmd cmd =
   v
 ;;
 
-let unwrap_float = function
+let float_or_default = function
   | None -> -1.0
   | Some x -> x
 ;;
@@ -164,7 +159,7 @@ let split_res_to_sec_opt s =
 
 (* let split_sec_by_ent_opt l = List.map (extract_func_opt "entry") l *)
 
-let read_to_sections dir =
+let _read_to_sections dir =
   if Sys.is_directory dir
   then (
     match Sys.readdir dir with
@@ -240,7 +235,8 @@ let get_param param f =
 let typst_measure s formatting =
   (* typst_query the size of a particluar item 
      after applying formatting and rendering  *)
-  let tf = "___measuring.typ" in
+  let tf = Int.to_string (Domain.self_index ()) ^ "___measuring.typ" in
+  let () = Printf.printf "%s\n" tf in
   let () =
     string_to_file
       (formatting
@@ -252,6 +248,20 @@ let typst_measure s formatting =
   let v = typst_query tf "demo" in
   let () = Sys.remove tf in
   v
+;;
+
+let calc_padding pool formatting =
+  let sec_size =
+    Task.async pool (fun _ -> typst_measure "section()" formatting |> float_or_default)
+  in
+  let ent_size =
+    Task.async pool (fun _ -> typst_measure "entry()" formatting |> float_or_default)
+  in
+  let both =
+    Task.async pool (fun _ ->
+      typst_measure "section(entry())" formatting |> float_or_default)
+  in
+  Task.await pool both -. (Task.await pool sec_size +. Task.await pool ent_size)
 ;;
 
 let line_height formatting = typst_measure "[temp]" formatting
@@ -318,14 +328,15 @@ module Section = struct
     aux "" l
   ;;
 
-  let to_weights sections formatting =
+  let to_weights sections formatting padding =
     List.map
       (fun sec ->
          List.map
            (fun e ->
               Entry.measure e formatting
-              |> unwrap_float
-              |> (fun v -> v /. (line_height formatting |> unwrap_float))
+              |> float_or_default
+              |> ( +. ) padding
+              |> (fun v -> v /. (line_height formatting |> float_or_default))
               |> Float.ceil
               |> Float.to_int)
            sec.entries)
@@ -336,16 +347,38 @@ module Section = struct
   let entry_positions sections =
     List.mapi (fun i s -> List.mapi (fun j _ -> i, j) s.entries) sections |> List.concat
   ;;
+
+  let init_mask sel loc sec =
+    let l = List.map (fun i -> List.nth loc i) sel in
+    List.mapi (fun i s -> List.mapi (fun j _ -> List.mem (i, j) l) s.entries) sec
+  ;;
+
+  let render_sections mandatory mappings sections =
+    combine_strs
+      (List.mapi
+         (fun i s ->
+            let l =
+              if List.mem s.name mandatory
+              then List.map (fun _ -> true) s.entries
+              else List.nth mappings i
+            in
+            select_to_str l s)
+         sections)
+  ;;
+
+  (* let fold_list_to_match l sec = *)
+  (*   let rec aux acc l = function *)
+  (*     | [] -> acc *)
+  (*     | h :: t -> aux (List.take (h + 1) l :: acc) (List.drop h l) t *)
+  (*   in *)
+  (*   List.map (fun s -> List.length s.entries) sec |> aux [] l *)
+  (* ;; *)
 end
 
-let strip_formatting f =
-  let s = read_string f in
-  Str.search_forward (Str.regexp {|#resume|}) s 0 |> String.sub s 0
-;;
+let strip_formatting s = Str.search_forward (Str.regexp {|#resume|}) s 0 |> String.sub s 0
 
-let strip_header f =
+let strip_header s =
   (* |> String.map (fun c -> if c = '\n' then ' ' else c) in *)
-  let s = read_string f in
   let start =
     (try Str.search_forward (Str.regexp {|#resume|}) s 0 with
      | Not_found -> -9)
@@ -359,8 +392,7 @@ let strip_header f =
   else ""
 ;;
 
-let get_margins f =
-  let s = read_string f in
+let get_margins s =
   if
     try Str.search_forward (Str.regexp {|page(margin:\(.*\)in)|}) s 0 >= 0 with
     | Not_found -> false
@@ -368,15 +400,13 @@ let get_margins f =
   else None
 ;;
 
-let contains v l = List.exists (fun e -> v = e) l
-
-let calc_available_space f sections mandatory ps =
-  let formatting = strip_formatting f in
-  let header = strip_header f in
+let calc_available_space s sections mandatory ps padding =
+  let formatting = strip_formatting s in
+  let header = strip_header s in
   let stub =
     List.fold_left
       (fun acc sec ->
-         if contains sec.name mandatory
+         if List.mem sec.name mandatory
          then acc ^ Section.to_str sec ^ ",\n"
          else acc ^ "section(),")
       ""
@@ -385,74 +415,83 @@ let calc_available_space f sections mandatory ps =
   let measured_space =
     match typst_measure ("resume(" ^ header ^ stub ^ "\n)") formatting with
     | None -> 0.0
-    | Some x -> x
+    (* TODO: the 4.0 number here accounts for lbars,
+       which are not measured by Typst *)
+    | Some x -> x +. (4.0 *. padding *. Float.of_int (List.length sections))
   in
   let m =
-    match get_margins f with
-    | None -> 1.0
-    | Some v -> v
+    match get_margins s with
+    | None -> 2.0
+    | Some v -> 2.0 *. v
   in
   ps -. m -. measured_space
 ;;
+
+type _res_meta =
+  { contents : string
+  ; formatting : string
+  ; header : string
+  ; mandatory : string list
+  ; line_height : float
+  ; available_space : int
+  ; page_height : float
+  ; padding : float
+  ; sections : section list
+  }
+
+module ResMeta = struct
+  let of_file f mandatory page_height =
+    let pool = Task.setup_pool ~num_domains:4 () in
+    let s = read_string f in
+    let formatting = strip_formatting s in
+    let padding = Task.run pool (fun _ -> calc_padding pool formatting) in
+    let sections =
+      match split_res_to_sec_opt s with
+      | None -> []
+      | Some l -> l |> List.map (Section.of_str mandatory)
+    in
+    let line_height = line_height formatting |> float_or_default in
+    let () = Task.teardown_pool pool in
+    { contents = s
+    ; formatting
+    ; header = strip_header s
+    ; mandatory
+    ; line_height
+    ; available_space =
+        (calc_available_space s sections mandatory page_height padding
+         |> fun v -> v /. line_height |> Float.to_int)
+    ; page_height
+    ; padding
+    ; sections
+    }
+  ;;
+end
 
 let score tags sec =
   sec.entries
   |> List.mapi (fun i e ->
     List.map
       (fun tag ->
-         contains tag e.tags |> Bool.to_int |> ( * ) (List.length sec.entries - i))
+         List.mem tag e.tags |> Bool.to_int |> ( * ) (List.length sec.entries - i))
       tags
     |> List.fold_left ( + ) 0)
 ;;
 
+(* let of_file f mandatory page_height = *)
 let build_resume res tags mandatory p =
-  let sections = read_to_sections res |> List.map (Section.of_str mandatory) in
-  let formatting = strip_formatting res in
-  let scores = List.map (score tags) sections |> List.concat |> Array.of_list in
-  let free_space =
-    calc_available_space res sections mandatory p
-    |> fun v -> v /. (line_height formatting |> unwrap_float) |> Float.to_int
+  let rm = ResMeta.of_file res mandatory p in
+  let scores = List.map (score tags) rm.sections |> List.concat |> Array.of_list in
+  let free_space = rm.available_space in
+  let locations = Section.entry_positions rm.sections in
+  let entry_weights =
+    Section.to_weights rm.sections rm.formatting rm.padding |> Array.of_list
   in
-  let locations = Section.entry_positions sections |> Array.of_list in
-  let entry_weights = Section.to_weights sections formatting |> Array.of_list in
-  let () = Printf.printf "avail. lines: %d" free_space in
-  let () =
-    Array.combine scores locations
-    |> Array.combine entry_weights
-    |> Array.iter (fun (a, (b, (c, d))) ->
-      Printf.printf
-        "free space: %d, weight: %d, score: %d, location: %d, %d\n"
-        free_space
-        a
-        b
-        c
-        d)
-  in
-  let rating, sel_ind = knapsack free_space scores entry_weights in
-  let () = Printf.printf "\n\nselections:" in
-  let () = List.iter (Printf.printf "%d ") sel_ind in
-  let selections = Array.make (Array.length entry_weights) false in
-  let () = Printf.printf "rating: %d\n" rating in
-  let () = List.iter (fun v -> selections.(v) <- true) sel_ind in
-  let () = Array.iter (fun b -> Printf.printf "(%B) " b) selections in
-  let resume =
-    Section.combine_strs
-      (List.map
-         (fun s -> Section.select_to_str (List.mapi (fun i _ -> selections.(i)) s.entries) s)
-         sections)
-  in
-  let () =
-    Printf.printf
-      "%f\n"
-      (match
-         Entry.measure (List.nth (List.nth sections 0).entries 0) (strip_formatting res)
-       with
-       | None -> 0.0
-       | Some x -> x)
-  in
-  let attach_formatting s = strip_formatting res ^ s in
-  let wrap s = "#resume(" ^ strip_header res ^ s ^ ")" in
-  resume |> wrap |> attach_formatting
+  let _, sel_ind = knapsack free_space scores entry_weights in
+  let mappings = Section.init_mask sel_ind locations rm.sections in
+  let resume = Section.render_sections mandatory mappings rm.sections in
+  let prepend_formatting s = rm.formatting ^ s in
+  let wrap s = "#resume(" ^ rm.header ^ s ^ ")" in
+  resume |> wrap |> prepend_formatting
 ;;
 
 let output_file = ref "output.typ"
@@ -470,8 +509,10 @@ let speclist =
 ;;
 
 let () =
+  let () = Printf.printf "Time: %fs \n" (Sys.time ()) in
   Arg.parse speclist anon_fun usage_msg;
   (* write resume data to temporary output file *)
+  let () = Printf.printf "Time: %fs \n" (Sys.time ()) in
   let resume =
     build_resume
       (List.nth !args 0)
@@ -479,24 +520,15 @@ let () =
       [ "Education"; "Skills" ]
       !page_height
   in
+  let () = Printf.printf "Time: %fs \n" (Sys.time ()) in
   string_to_file resume !output_file;
+  let () = Printf.printf "Time: %fs \n" (Sys.time ()) in
   if not (typst_compile !output_file) then failwith "Typst Compilation Error";
+  let () = Printf.printf "Time: %fs \n" (Sys.time ()) in
   (* remove the output file if none is specified *)
   if !output_file = "output.typ" then Sys.remove !output_file;
-  knapsack 10 [| 10; 4; 25; 3; 9 |] [| 9; 1; 4; 2; 5 |]
-  |> fun (o, b) ->
-  let () = Printf.printf "knapsack val: %d\n" o in
-  List.iter (Printf.printf ", %d") b;
-  typst_query (List.nth !args 0) "demo"
-  |> (fun v ->
-  match v with
-  | None -> -1.0
-  | Some x -> x)
-  |> Printf.printf "this is the version: %f!";
-  get_margins (List.nth !args 0)
-  |> (fun v ->
-  match v with
-  | None -> -1.0
-  | Some x -> x)
-  |> Printf.printf "this is the margin: %f..."
+  let () = Printf.printf "Time: %fs \n" (Sys.time ()) in
+  Printf.printf
+    "Successfully compiled and exported resume to: %s\n"
+    (String.sub !output_file 0 (String.length !output_file - 3) ^ "pdf")
 ;;

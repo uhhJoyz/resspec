@@ -1,8 +1,8 @@
-# dune exec resspec -- /Users/joyz/work/resume/proto/resume.typ -t cpp,python
+# dune exec resspec -- /Users/joyz/work/resume/proto/resume.typ -t cpp,python,internship,ocaml,foss,combinatorics
 # OCAMLPARAM: unset
 # Shared cache: enabled-except-user-rules
 # Shared cache location: /Users/joyz/.cache/dune/db
-# Workspace root: /Users/joyz/work/projects/ores
+# Workspace root: /Users/joyz/work/projects/resspec
 # Auto-detected concurrency: 12
 # Dune context:
 #  { name = "default"
@@ -13,6 +13,6 @@
 #  ; build_dir = In_build_dir "default"
 #  ; instrument_with = []
 #  }
-$ /Users/joyz/.opam/default/bin/ocamlc.opt -config > /var/folders/6z/v_s95qv95b55n3gs981td7zr0000gn/T/dune_5110a4_output
-$ (cd _build/default && /Users/joyz/.opam/default/bin/ocamlopt.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -I bin/.main.eobjs/byte -I bin/.main.eobjs/native -I /Users/joyz/.opam/default/lib/ocaml/str -I /Users/joyz/.opam/default/lib/ocaml/unix -I lib/.resspec.objs/byte -I lib/.resspec.objs/native -cmi-file bin/.main.eobjs/byte/dune__exe__Main.cmi -no-alias-deps -opaque -o bin/.main.eobjs/native/dune__exe__Main.cmx -c -impl bin/main.ml)
-$ (cd _build/default && /Users/joyz/.opam/default/bin/ocamlopt.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -o bin/main.exe lib/resspec.cmxa /Users/joyz/.opam/default/lib/ocaml/str/str.cmxa /Users/joyz/.opam/default/lib/ocaml/unix/unix.cmxa bin/.main.eobjs/native/dune__exe__Main.cmx)
+$ /Users/joyz/.opam/default/bin/ocamlc.opt -config > /var/folders/6z/v_s95qv95b55n3gs981td7zr0000gn/T/dune_2b3082_output
+$ (cd _build/default && /Users/joyz/.opam/default/bin/ocamlopt.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -I bin/.main.eobjs/byte -I bin/.main.eobjs/native -I /Users/joyz/.opam/default/lib/backoff -I /Users/joyz/.opam/default/lib/domain-local-await -I /Users/joyz/.opam/default/lib/domainslib -I /Users/joyz/.opam/default/lib/multicore-magic -I /Users/joyz/.opam/default/lib/multicore-magic/__private__/multicore_magic_atomic_array_boxed5 -I /Users/joyz/.opam/default/lib/ocaml/str -I /Users/joyz/.opam/default/lib/ocaml/unix -I /Users/joyz/.opam/default/lib/saturn -I /Users/joyz/.opam/default/lib/thread-table -I lib/.resspec.objs/byte -I lib/.resspec.objs/native -cmi-file bin/.main.eobjs/byte/dune__exe__Main.cmi -no-alias-deps -opaque -o bin/.main.eobjs/native/dune__exe__Main.cmx -c -impl bin/main.ml)
+$ (cd _build/default && /Users/joyz/.opam/default/bin/ocamlopt.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -o bin/main.exe lib/resspec.cmxa /Users/joyz/.opam/default/lib/ocaml/str/str.cmxa /Users/joyz/.opam/default/lib/ocaml/unix/unix.cmxa /Users/joyz/.opam/default/lib/backoff/backoff.cmxa /Users/joyz/.opam/default/lib/multicore-magic/__private__/multicore_magic_atomic_array_boxed5/multicore_magic_atomic_array_boxed5.cmxa /Users/joyz/.opam/default/lib/multicore-magic/Multicore_magic.cmxa /Users/joyz/.opam/default/lib/saturn/saturn.cmxa /Users/joyz/.opam/default/lib/thread-table/Thread_table.cmxa /Users/joyz/.opam/default/lib/domain-local-await/Domain_local_await.cmxa /Users/joyz/.opam/default/lib/domainslib/domainslib.cmxa bin/.main.eobjs/native/dune__exe__Main.cmx)
