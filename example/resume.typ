@@ -94,10 +94,9 @@
       state: "Kanto",
       start-date: "Feb. 2023",
       end-date: "Aug. 2024",
-      [Participated in summer Computing for Global Challenges (C4GC) internship program],
-      [Planned and implemented 3 Python-based integer linear programming solvers with Dr. S. S. Ravi for NP-hard problems such as the Minimum Set Cover and Minimum Disjoint Descriptor using Gurobi],
-      [Theorized seven heuristic approximation algorithms for NP-hard problems, allowed for polynomial time approximation at the cost of some accuracy],
-      [Implemented heuristic solvers for NP-hard problems in Rust, benchmarking over $10 times$ average speedup over Python-based solver],
+      [Under Lt. Surge, dug around a bit and had lots of fun; made 25 other dig around too],
+      [Saved the local digging company more than \$250,000 by completing their digging goals $374 times$ faster than human engineers],
+      [You can dig around too at Vermilion Mining Co.],
     ),
   ),
   section(
