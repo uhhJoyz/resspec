@@ -46,6 +46,19 @@ brew install typst
 sudo snap install typst
 ```
 
+You also need to install [dune](https://github.com/ocaml/dune) and
+[opam](https://github.com/ocaml/opam) and can then run `./setup.sh` to create
+an opam switch and install the necessary dependencies. The commands for this
+are listed below in case you would rather run them yourself.
+
+```bash
+# create an opam switch
+opam switch create resspec 5.2.1
+opam switch resspec
+# install necessary packages
+opam install minttea spices leaves
+```
+
 # Build
 
 The application can be built from source using dune with the `dune build`
@@ -73,11 +86,6 @@ following:
 ```
 --- OR ---
 ```bash
-# create an opam switch
-opam switch create resspec 5.2.1
-opam switch resspec
-# install necessary packages
-opam install minttea spices leaves
 # compile
 dune build
 ```
