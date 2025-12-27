@@ -16,7 +16,8 @@ output.
 
 You should quickly note that any sections titled "Skills" or "Education" will
 always be included in full. This is subject to change and may require manual
-specification in future updates.
+specification in future updates. All data and text *after* the resume block
+will be omitted.
 
 # On Performance
 
