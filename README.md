@@ -12,6 +12,12 @@ In the event that one of your sections on your shortened resume ends up being
 empty, we recommend modifying your tag assignments to better suit your desired
 output.
 
+## Before you resspec
+
+You should quickly note that any sections titled "Skills" or "Education" will
+always be included in full. This is subject to change and may require manual
+specification in future updates.
+
 # On Performance
 
 It should be noted that, due to the nature of Typst's query and the developer
