@@ -8,6 +8,8 @@ reduction ot the knapsack problem and uses an $O(n \cdot W)$ implementation of
 the knapsack problem where $n$ is the number of resume entries you have and $W$
 is the amount of vertical space in your Typst document.
 
+![Example Resume](./example-res.png "Example Resume")
+
 In the event that one of your sections on your shortened resume ends up being
 empty, we recommend modifying your tag assignments to better suit your desired
 output.
