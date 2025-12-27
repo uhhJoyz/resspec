@@ -6,7 +6,7 @@ Typst is a modern type-setting language similar to LaTeX with scripting
 capabilities similar to Python. **resspec**'s implementation is based on a
 reduction ot the knapsack problem and uses an $O(n \cdot W)$ implementation of
 the knapsack problem where $n$ is the number of resume entries you have and $W$
-is the amount of vertical space in your Typst document.
+is the amount of vertical space in your Typst document. (Example shown below.)
 
 ![Example Resume](./example-res.png "Example Resume")
 
