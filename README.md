@@ -1,12 +1,12 @@
 # Welcome
 
-This is **resspec** (pronounced "ree-speck"), which is a resume tailoring
-application built on Typst using OCaml. For those who are unaware, Typst is a
-modern type-setting language similar to LaTeX with scripting capabilities
-similar to Python. **resspec**'s implementation is based on a reduction ot the knapsack
-problem and uses an $O(n \cdot W)$ implementation of the knapsack problem where
-$n$ is the number of resume entries you have and $W$ is the amount of vertical
-space in your Typst document.
+This is **resspec** (pronounced "ree-speck"), which is a single-page resume
+tailoring application built on Typst using OCaml. For those who are unaware,
+Typst is a modern type-setting language similar to LaTeX with scripting
+capabilities similar to Python. **resspec**'s implementation is based on a
+reduction ot the knapsack problem and uses an $O(n \cdot W)$ implementation of
+the knapsack problem where $n$ is the number of resume entries you have and $W$
+is the amount of vertical space in your Typst document.
 
 In the event that one of your sections on your shortened resume ends up being
 empty, we recommend modifying your tag assignments to better suit your desired
@@ -53,8 +53,44 @@ command.
 
 # Installation / Usage
 
-TODO
+First, clone the repository:
+
+```bash
+git clone https://github.com/uhhJoyz/resspec.git
+```
+
+Now, you can find the example resume (for the Pokemon Diglett) in
+`example/resume.typ`. If you would like to preview this resume, you need to
+specify the root directory of your preview command as `<path-to>/resspec` to
+let *Typst* find the `./styles.typ` file (needed by the `resspec application`).
+In short, wherever you run the `resspec` binary, you must ensure that
+`styles.typ` **is in the same directory** or it will fail to compile.
+
+To compile, ensure that you have `dune` and `opam` installed and then run:
+```bash
+# create an opam switch
+opam switch create resspec 5.2.1
+opam switch resspec
+# install necessary packages
+opam install minttea spices leaves
+# compile
+dune build
+```
+
+You can then find the binary in `./_build/default/bin/main.exe`. The `.exe`
+extension is **not** indicative of a Windows executable.
+
+You can copy it using:
+```bash
+cp ./_build/default/bin/main.exe ./resspec
+```
+and then run it in interactive mode with:
+```bash
+./resspec <path-to-your-resume> -i
+```
 
 # Credits
+
+Lead Developer: William Bradford (uhhJoyz)
 
 Put some resspec on our name (written with full irony).
