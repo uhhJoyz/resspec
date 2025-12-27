@@ -66,7 +66,12 @@ let *Typst* find the `./styles.typ` file (needed by the `resspec application`).
 In short, wherever you run the `resspec` binary, you must ensure that
 `styles.typ` **is in the same directory** or it will fail to compile.
 
-To compile, ensure that you have `dune` and `opam` installed and then run:
+To compile, ensure that you have `dune` and `opam` installed and then run the
+following:
+```bash
+./build.sh
+```
+--- OR ---
 ```bash
 # create an opam switch
 opam switch create resspec 5.2.1
@@ -88,6 +93,9 @@ and then run it in interactive mode with:
 ```bash
 ./resspec <path-to-your-resume> -i
 ```
+
+It should look something like this:
+![Example GIF](./demo.gif "Demonstration GIF.")
 
 # Credits
 

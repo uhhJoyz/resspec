@@ -68,7 +68,7 @@
       [Published _The Art of Rock Slide_ in ECP'25],
     ),
     entry(
-      tags: [],
+      tags: [ground type,research],
       title: "Ground Type Researcher",
       city: "Vermilion City",
       state: "Kanto",
@@ -78,7 +78,7 @@
       [Developed and implemented novel high-magnitude booster item],
     ),
     entry(
-      tags: [],
+      tags: [teaching,ground type,rock type],
       title: "Teaching Assistant at Vermilion City Gym",
       city: "Vermilion City",
       state: "Kanto",
@@ -88,7 +88,7 @@
       [Built relationships with and helped Pokemon prepare for exams with several regularly returning Pokemon],
     ),
     entry(
-      tags: [],
+      tags: [dig,ground type,internship],
       title: "Undergraduate Digging Intern",
       city: "Vermilion Mining Co.",
       state: "Kanto",
@@ -103,7 +103,7 @@
   section(
     title: "Course Projects & Specializations",
     entry(
-      tags: [],
+      tags: [ground type,dig],
       title: "Fast and Efficient Digging - Independent Study",
       start-date: "Jun. 2025",
       end-date: "present",
@@ -112,7 +112,7 @@
       [Created a digging guide which enhances dig speed by nearly $716%$ for untrained ground types and $495%$ for all other types],
     ),
     entry(
-      tags: [],
+      tags: [rock type,safety,evasion],
       title: [_Hulk Smash_: Fast and Scalable Rock Smash Dodging],
       subtitle: [Rock Type Safety],
       start-date: "Fall 2025",
@@ -121,7 +121,7 @@
       [Enabled $150$ out of $490$ evaluated rock types to avoid fainting when facing perilous fighting type matchups],
     ),
     entry(
-      tags: [],
+      tags: [flying type,teaching],
       title: "The Flying Tango: Undergraduate Capstone",
       start-date: "Fall 2024",
       end-date: "Spring 2025",
@@ -129,7 +129,7 @@
       [Used the teach and teach method to impress the importance of flying maneuvers upon young, impressionable digletts],
     ),
     entry(
-      tags: [],
+      tags: [magnitude,ground type,research],
       title: "Magnitude 11",
       subtitle: "Advanced Dig Development",
       start-date: "Fall 2023",
@@ -138,7 +138,7 @@
       [Conducted rigorous security testing, identifying and patching 3 security vulnerabilities which allowed attackers to limit viewers to magnitude 3],
     ),
     entry(
-      tags: [],
+      tags: [ground type,rock type],
       title: "Relevant Course Projects",
       subtitle: "Ground Type Systems/Rockware Engineering",
       [Created virtual groundspace addressing and access system and diglett-level multitasking system for troops of digletts],
@@ -149,7 +149,7 @@
   section(
     title: "Passion Projects",
     entry(
-      tags: [],
+      tags: [ground type,mud],
       title: "Mud Bathing",
       start-date: "May 2025",
       end-date: "present",
@@ -157,14 +157,14 @@
       [Convinced nearly 9,000 other Pokemon to bathe in mud, allowing electric types in 5 cities to safely nuzzle their trainers],
     ),
     entry(
-      tags: [],
+      tags: [resspec],
       title: "Used Resspec",
       start-date: "Dec. 2025",
       [Used ResSpec, an automated resume specializer application written in Ocaml which automatically selects the most relevant portions of a user's work experience and outputs a PDF resume, rendered from Typst code],
       [_Assembled this resume_ using ResSpec, implemented using a reduction to the knapsack problem which matches tags of a job to resume experiences based on user-selected skill point investments],
     ),
     entry(
-      tags: [],
+      tags: [rock type,dig],
       title: "Rolled Rocks",
       start-date: "May 2025",
       [Rolled nearly 250 rocks over 5 miles to their delivery destinations for fun],
@@ -172,27 +172,27 @@
       [Created a rock rolling system which allows one diglett to roll more than 10 rocks concurrently],
     ),
     entry(
-      tags: [],
+      tags: [ground type,music],
       title: "The Dynamic Diglett Duo",
       start-date: "May 2024",
       [Performed as part of the _Dynamic Diglett Duo_ band in 15 concerts in the month of May, celebrating the lesser-known Ground Type festival of Lavender Town],
       [Sterilized more than 5,000 chairs after stinky electric types used them to enjoy the festival],
     ),
     entry(
-      tags: [],
+      tags: [milk,volunteering],
       title: "Moo Moo Milking",
       start-date: "Mar. 2023",
       [Helped farmers milk more than 10,000 Miltanks to feed hungry digletts and dugtrios],
       [Provided warm Moo Moo Milk to more than 150,000 Pokemon],
     ),
     entry(
-      tags: [],
+      tags: [hair],
       title: "Styling my Hair",
       start-date: "Mar. 2023",
       [Styled my hair (all three strands) every day for more than 10 years, serving as a role model for aimless young digletts everywhere.],
     ),
     entry(
-      tags: [],
+      tags: [reading],
       title: "Speed Reading",
       start-date: "Feb. 2023",
       [Read a lot of things really really really fast!],
