@@ -19,7 +19,7 @@ always be included in full. This is subject to change and may require manual
 specification in future updates. All data and text *after* the resume block
 will be omitted.
 
-# On Performance
+## Regarding Performance
 
 It should be noted that, due to the nature of Typst's query and the developer
 decision to use the Typst CLI to implement this project, this application's
