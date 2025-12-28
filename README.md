@@ -8,6 +8,10 @@ reduction ot the knapsack problem and uses an $O(n \cdot W)$ implementation of
 the knapsack problem where $n$ is the number of resume entries you have and $W$
 is the amount of vertical space in your Typst document. (Example shown below.)
 
+Demo usage:
+![Example GIF](./demo.gif "Demonstration GIF.")
+
+Output resume:
 ![Example Resume](./example-res.png "Example Resume")
 
 In the event that one of your sections on your shortened resume ends up being
@@ -103,9 +107,6 @@ and then run it in interactive mode with:
 ```bash
 ./resspec <path-to-your-resume> -i
 ```
-
-It should look something like this:
-![Example GIF](./demo.gif "Demonstration GIF.")
 
 # Credits
 
