@@ -40,7 +40,12 @@ let () =
     if !interactive
     then (
       let tagset = Resmeta.tagset rm |> Array.map (fun t -> t, 0) in
-      Cli.start_interactive_mode tagset level output_file rm)
+      if Array.length tagset < 5
+      then
+        Printf.printf
+          "You don't have enough tags to run resspec in interactive mode (you need \
+           greater than or eqal to 5 tags).\n"
+      else Cli.start_interactive_mode tagset level output_file rm)
     else (
       (* assumes even weighting *)
       let tagset = Resmeta.tagset rm |> Array.to_list |> List.map (fun t -> t, 1) in

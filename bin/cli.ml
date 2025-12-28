@@ -89,8 +89,7 @@ let update event model =
         Some
           (Domain.spawn (fun _ ->
              builder_call (model.choices |> Array.to_list) model.rm model.output_file;
-             model.fin := `terminating
-             ))
+             model.fin := `terminating))
       else None
     in
     { model with generating = true }, Command.Noop
@@ -123,8 +122,9 @@ let view model =
         (Spices.build used "%s" "resspec")
     else "\n\n\n" ^ spin_text ^ " Generating... " ^ spin_text ^ "\n\n\n")
   else (
-    let top = max (model.cursor - 2) 0 |> min (Array.length model.choices - 5) in
-    let num_entries = 5 in
+    let max_tags = 5 in
+    let top = max (model.cursor - 2) 0 |> min (Array.length model.choices - max_tags) in
+    let num_entries = min (Array.length model.choices) max_tags in
     let options =
       Array.sub model.choices top num_entries
       |> Array.to_list
@@ -168,5 +168,6 @@ Press %s to confirm generation.
 ;;
 
 let start_interactive_mode tagset level output_file rm =
-    let cli = Minttea.app ~init ~update ~view () in
-    Minttea.start cli ~initial_model:(init_model tagset (max 1 !level) !output_file rm)
+  let cli = Minttea.app ~init ~update ~view () in
+  Minttea.start cli ~initial_model:(init_model tagset (max 1 !level) !output_file rm)
+;;
